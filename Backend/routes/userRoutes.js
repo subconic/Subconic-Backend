@@ -6,35 +6,41 @@ const bcrypt = require('bcryptjs');
 // 1️⃣ Signup - Add New User
 router.post('/signup', async (req, res) => {
   try {
-    const { email, name, password, goals, mainGoal, commitments } = req.body;
+    const { email, name, password, goals, mainGoal, commitments, currentPlan } = req.body;
 
-    // Check if email already exists
+    // Check if email exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Hash password before saving
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const newUser = new User({
       email,
       name,
       password: hashedPassword,
+
       goals: goals || [],
       mainGoal: mainGoal || "",
-      commitments: commitments || { whyNeverQuit: "", sacrificeLevel: "", extraDetails: "" },
+      commitments: commitments || {},
+
       isVerified: true,
-      currentPlan: {},
+
+      // ✔ IMPORTANT FIX
+      currentPlan: currentPlan || {},
+
       progressHistory: []
     });
 
     await newUser.save();
     res.status(201).json({ message: 'User created successfully', user: newUser });
+
   } catch (err) {
     res.status(500).json({ message: 'Error in signup', error: err.message });
   }
 });
+
 
 // 2️⃣ Update User - Pura Data Update Karo
 router.put('/update/:userId', async (req, res) => {
