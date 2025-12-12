@@ -1,64 +1,71 @@
 const mongoose = require("mongoose");
 
-// ⭐ Sub-schema for brainprogram
-const brainProgramSchema = new mongoose.Schema(
-  {
-    morning: { type: String, default: "" },
-    night: { type: String, default: "" },
-  },
-  { _id: false }
-);
-
-// ⭐ Sub-schema for current plan
-const currentPlanSchema = new mongoose.Schema(
-  {
-    brainprogram: { type: brainProgramSchema, default: () => ({}) },
-
-    affirmation: { type: [String], default: [] },
-
-    priorityTasks: { type: [String], default: [] },
-
-    burningDesires: { type: [String], default: [] },
-
-    expiryDate: { type: Date, default: null },
-
-    createdAt: { type: Date, default: Date.now },
-  },
-  { _id: false }
-);
-
-// ⭐ Sub-schema for commitments
-const commitmentsSchema = new mongoose.Schema(
-  {
-    whyNeverQuit: { type: String, default: "" },
-    sacrificeLevel: { type: String, default: "" },
-    extraDetails: { type: String, default: "" },
-  },
-  { _id: false }
-);
-
 // ⭐ MAIN USER SCHEMA
 const userSchema = new mongoose.Schema(
   {
-    email: { type: String, required: true, unique: true },
+    email: { 
+      type: String, 
+      required: true, 
+      unique: true 
+    },
 
-    name: { type: String, default: "" },
+    name: { 
+      type: String, 
+      default: "" 
+    },
 
-    password: { type: String, required: true },
+    password: { 
+      type: String, 
+      required: true 
+    },
 
-    goals: { type: [String], default: [] },
+    goals: { 
+      type: [String], 
+      default: [] 
+    },
 
-    mainGoal: { type: String, default: "" },
+    mainGoal: { 
+      type: String, 
+      default: "" 
+    },
 
-    commitments: { type: commitmentsSchema, default: () => ({}) },
+    commitments: {
+      type: Object,
+      default: {}
+    },
 
-    currentPlan: { type: currentPlanSchema, default: () => ({}) },
+    // ⭐ CURRENT PLAN - COMPLETELY FLEXIBLE
+    currentPlan: {
+      type: Object,
+      default: {}
+    },
 
-    isVerified: { type: Boolean, default: false },
+    isVerified: { 
+      type: Boolean, 
+      default: false 
+    },
 
-    progressHistory: { type: Array, default: [] },
+    progressHistory: { 
+      type: Array, 
+      default: [] 
+    },
+
+    // ⭐ OPTIONAL: Add tasks array at root level
+    tasks: {
+      type: Array,
+      default: []
+    },
+
+    // ⭐ OPTIONAL: Add progress tracking at root level
+    progress: {
+      type: Object,
+      default: {}
+    }
   },
-  { timestamps: true }
+  { 
+    timestamps: true,
+    minimize: false  // Preserves empty objects
+  }
 );
 
 module.exports = mongoose.model("User", userSchema);
