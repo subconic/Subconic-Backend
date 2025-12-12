@@ -45,17 +45,6 @@ const userSchema = new mongoose.Schema(
       default: false 
     },
 
-    progressHistory: { 
-      type: Array, 
-      default: [] 
-    },
-
-    // ⭐ OPTIONAL: Add tasks array at root level
-    tasks: {
-      type: Array,
-      default: []
-    },
-
     // ⭐ OPTIONAL: Add progress tracking at root level
     progress: {
       type: Object,
