@@ -19,37 +19,16 @@ const userSchema = new mongoose.Schema(
       required: true 
     },
 
-    goals: { 
-      type: [String], 
-      default: [] 
-    },
-
     mainGoal: { 
-      type: String, 
-      default: "" 
-    },
-
-    commitments: {
-      type: Object,
+      type: Object, 
       default: {}
     },
 
-    // ⭐ CURRENT PLAN - COMPLETELY FLEXIBLE
     currentPlan: {
       type: Object,
       default: {}
     },
 
-    isVerified: { 
-      type: Boolean, 
-      default: false 
-    },
-
-    // ⭐ OPTIONAL: Add progress tracking at root level
-    progress: {
-      type: Object,
-      default: {}
-    }
   },
   { 
     timestamps: true,
