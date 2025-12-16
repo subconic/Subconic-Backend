@@ -29,6 +29,16 @@ const userSchema = new mongoose.Schema(
       default: {}
     },
 
+    progress: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {}
+    },
+
+    reminders: {
+      type: Array,
+      default: []
+    }
+
   },
   { 
     timestamps: true,
